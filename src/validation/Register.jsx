@@ -1,228 +1,113 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Register() {
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    location: "",
-    password: "",
-    confirmPassword: "",
-    gender: "",
-    dob: "",
-    terms: false,
-  });
-
   const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "", confirm: "" });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
+    if (form.password !== form.confirm) {
       alert("❌ Passwords do not match!");
       return;
     }
 
-    if (!form.terms) {
-      alert("❌ You must accept the Terms & Conditions!");
-      return;
-    }
+    const user = { email: form.email, password: form.password };
+    localStorage.setItem("user", JSON.stringify(user));
 
-    localStorage.setItem("user", JSON.stringify(form));
-    alert("✅ Registration successful! Please log in.");
-    navigate("/"); // Redirect to login
+    alert("✅ Registration successful! Please login.");
+    navigate("/login");
   };
 
   return (
     <div
       className="d-flex justify-content-center align-items-center vh-100"
       style={{
-        background: "linear-gradient(135deg, #6a11cb, #2575fc)",
+        background: "linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%)",
       }}
     >
       <div
-        className="card shadow-lg p-4"
+        className="card p-5 shadow-lg border-0"
         style={{
-          width: "450px",
-          borderRadius: "15px",
-          background: "rgba(255, 255, 255, 0.95)",
-          backdropFilter: "blur(10px)",
+          width: "400px",
+          borderRadius: "20px",
+          background: "white",
         }}
       >
-        <div className="text-center mb-3">
+        <div className="text-center mb-4">
           <i
-            className="bi bi-person-plus-fill"
-            style={{ fontSize: "3rem", color: "#6a11cb" }}
+            className="bi bi-person-plus-fill text-success"
+            style={{ fontSize: "3.5rem" }}
           ></i>
-          <h3 className="mt-2">Create Account</h3>
-          <p className="text-muted">Fill in your details to register</p>
+          <h3 className="mt-2 fw-bold text-success">Create Account</h3>
+          <p className="text-muted mb-0">Register to get started</p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-person-fill"></i>
-            </span>
-            <input
-              type="text"
-              name="fullName"
-              className="form-control"
-              placeholder="Full Name"
-              value={form.fullName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-envelope-fill"></i>
-            </span>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Email</label>
             <input
               type="email"
               name="email"
-              className="form-control"
-              placeholder="Email"
+              className="form-control form-control-lg"
+              placeholder="Enter your email"
               value={form.email}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-telephone-fill"></i>
-            </span>
-            <input
-              type="tel"
-              name="phone"
-              className="form-control"
-              placeholder="Phone Number"
-              value={form.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-geo-alt-fill"></i>
-            </span>
-            <input
-              type="text"
-              name="location"
-              className="form-control"
-              placeholder="Location"
-              value={form.location}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-lock-fill"></i>
-            </span>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Password</label>
             <input
               type="password"
               name="password"
-              className="form-control"
-              placeholder="Password"
+              className="form-control form-control-lg"
+              placeholder="Enter your password"
               value={form.password}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="mb-2 input-group">
-            <span className="input-group-text bg-light">
-              <i className="bi bi-lock-fill"></i>
-            </span>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Confirm Password</label>
             <input
               type="password"
-              name="confirmPassword"
-              className="form-control"
-              placeholder="Confirm Password"
-              value={form.confirmPassword}
+              name="confirm"
+              className="form-control form-control-lg"
+              placeholder="Re-enter your password"
+              value={form.confirm}
               onChange={handleChange}
               required
             />
-          </div>
-
-          <div className="mb-2">
-            <select
-              name="gender"
-              className="form-select"
-              value={form.gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div className="mb-2">
-            <label className="form-label">Date of Birth</label>
-            <input
-              type="date"
-              name="dob"
-              className="form-control"
-              value={form.dob}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              name="terms"
-              className="form-check-input"
-              checked={form.terms}
-              onChange={handleChange}
-            />
-            <label className="form-check-label">
-              I agree to the Terms & Conditions
-            </label>
           </div>
 
           <button
             type="submit"
-            className="btn w-100"
-            style={{
-              background: "linear-gradient(135deg, #6a11cb, #2575fc)",
-              color: "white",
-              fontWeight: "bold",
-            }}
+            className="btn btn-success btn-lg w-100 shadow-sm mt-2"
           >
-            <i className="bi bi-check-circle-fill me-2"></i> Register
+            Register
           </button>
-        </form>
 
-        <p className="mt-3 text-center">
-          Already have an account?{" "}
-          <span
-            className="fw-bold"
-            role="button"
-            style={{ color: "#6a11cb" }}
-            onClick={() => navigate("/")}
-          >
-            Login
-          </span>
-        </p>
+          <p className="text-center mt-3 mb-0">
+            Already have an account?{" "}
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </span>
+          </p>
+        </form>
       </div>
     </div>
   );
