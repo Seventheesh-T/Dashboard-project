@@ -18,25 +18,25 @@ import CreateProduct from "./Pages/CreateProduct";
 import ForgotPassword from "./Pages/ForgotPassword";
 
 function App() {
-  // ✅ reactive auth state
+  // ✅ Manage login state
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("isAuthenticated") === "true"
   );
 
   return (
     <Routes>
-      {/* Public routes */}
+      {/* 🔓 Public routes */}
       <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
-      {/* Redirect root based on auth */}
+      {/* 🏠 Redirect root */}
       <Route
         path="/"
         element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
       />
 
-      {/* Protected routes */}
+      {/* 🔒 Protected routes */}
       {isAuthenticated ? (
         <Route element={<Layouts />}>
           <Route path="dashboard" element={<Dashboard />} />

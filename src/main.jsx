@@ -7,13 +7,14 @@ import './index.css';
 import 'animate.css';
 import { ThemeProvider } from "./Pages/ThemeContext";
 
+const baseName = import.meta.env.MODE === "production" ? "/Dashboard-project" : "/";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-    <ThemeProvider>
+    <BrowserRouter basename={baseName}>
+      <ThemeProvider>
         <App />
-    </ThemeProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

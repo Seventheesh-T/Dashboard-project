@@ -1,4 +1,3 @@
-// src/context/ThemeContext.jsx
 import React, { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext();
@@ -8,7 +7,7 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.documentElement.className = theme; // for Tailwind
+    document.documentElement.className = theme;
   }, [theme]);
 
   const toggleTheme = () => {
