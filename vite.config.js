@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
-// ✅ Works on both local and GitHub Pages
+// ✅ Correct config (no tailwindcss import)
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  base:  '/Dashboard/'
+  plugins: [react()],
+  base: '/Dashboard/',
 })
